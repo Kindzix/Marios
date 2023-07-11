@@ -1,17 +1,17 @@
-package com.deloitte.ads;
+package com.deloitte.ads.library.repository;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class User {
-    private final String id;
+    private final String idUser;
     private final String firstName;
     private final String lastName;
     private final String email;
     private final Map<String, String> receivedMario;
 
-    public User(String id, String firstName, String lastName, String email) {
-        this.id = id;
+    public User(String idUser, String firstName, String lastName, String email) {
+        this.idUser = idUser;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -21,18 +21,20 @@ public class User {
     public void addMario(String marioType, String comment) {
         receivedMario.put(marioType, comment);
     }
+
     public Map<String, String> getReceivedMario() {
         return receivedMario;
     }
-    public String getId() {
-        return id;
+
+    public String getIdUser() {
+        return idUser;
     }
+
     public String getFullName() {
         return firstName + " " + lastName;
     }
+
     public String getEmail() {
         return email;
     }
 }
-
-
