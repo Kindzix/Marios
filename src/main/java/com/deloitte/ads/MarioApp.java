@@ -4,8 +4,8 @@ import java.util.*;
 
 public class MarioApp {
     private static Set<String> marioTypes;
-    private List<Mario> marioList;
-    private Map<String, User> users;
+    private final List<Mario> marioList;
+    private final Map<String, User> users;
     public MarioApp() {
         marioTypes = new HashSet<>();
         marioTypes.add("Wielki dzięki, za pomoc!");
@@ -130,7 +130,7 @@ public class MarioApp {
                     String selectedUserIndices = scanner.nextLine();
                     String[] indices = selectedUserIndices.split(",");
                     Set<User> recipients = new HashSet<>();
-                    boolean allIndicesValid = true;  // Flaga wskazująca, czy wszystkie numery są poprawne
+                    boolean allIndicesValid = true;
                     for (String index : indices) {
                         int userIndex = Integer.parseInt(index.trim());
                             User selectedUser = userMap.get(userIndex);

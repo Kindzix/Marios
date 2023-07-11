@@ -2,10 +2,10 @@ package com.deloitte.ads;
 
 import java.util.Set;
 public class Mario {
-    private String id;
-    private User sender;
-    private Set<User> recipients;
-    private String type;
+    private final String id;
+    private final User sender;
+    private final Set<User> recipients;
+    private final String type;
 
     public Mario(String id, User sender, Set<User> recipients, String type) {
         this.id = id;

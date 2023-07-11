@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User {
-    private String id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private Map<String, String> receivedMario;
+    private final String id;
+    private final String firstName;
+    private final String lastName;
+    private final String email;
+    private final Map<String, String> receivedMario;
 
     public User(String id, String firstName, String lastName, String email) {
         this.id = id;
