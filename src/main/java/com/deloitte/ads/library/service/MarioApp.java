@@ -4,8 +4,6 @@ import com.deloitte.ads.library.repository.Mario;
 import com.deloitte.ads.library.repository.User;
 import com.deloitte.ads.library.repository.SentMario;
 import com.google.common.collect.Sets;
-import org.checkerframework.checker.compilermsgs.qual.CompilerMessageKey;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -14,10 +12,13 @@ import java.util.*;
 public class MarioApp {
 
     private Set<SentMario> sentMarios;
-    private final Set<Mario> marios;
-    private final Set<User> users;
+    private Set<Mario> marios;
+    private Set<User> users;
 
     public MarioApp() {
+        this.marios = new HashSet<>();
+        this.users = new HashSet<>();
+        this.sentMarios = new HashSet<>();
 
         User user1 = new User("1", "Olga", "Przybysz", "olga.przybysz@example.com");
         User user2 = new User("2", "Jagoda", "Rogala", "jagoda.rogala@example.com");
@@ -34,11 +35,12 @@ public class MarioApp {
         this.marios = Sets.newHashSet(mario1, mario2, mario3, mario4, mario5);
 
 
-        SentMario sentMario1 = new SentMario(mario1, "Dobra robota!", "1", "2");
-        SentMario sentMario2 = new SentMario(mario2, "Niesamowite osiągnięcie!", "1", "3");
-        SentMario sentMario3 = new SentMario(mario3, "Wspaniała praca!", "2", "1");
+        SentMario sentMario1 = new SentMario(mario1, "", "1", Sets.newHashSet(user2));
+        SentMario sentMario2 = new SentMario(mario2, "Niesamowite osiągnięcie!", "1", Sets.newHashSet(user3, user2));
+        SentMario sentMario3 = new SentMario(mario3, "Wspaniała praca!", "2", Sets.newHashSet(user1));
 
         this.sentMarios = Sets.newHashSet(sentMario1, sentMario2, sentMario3);
+
         sendMario(sentMario1);
         sendMario(sentMario2);
         sendMario(sentMario3);
@@ -85,7 +87,7 @@ public class MarioApp {
                 System.out.println("Mario ID: " + sentMario.getMario().getIdMarios());
                 System.out.println("Rodzaj Mario: " + sentMario.getMario().getType());
                 System.out.println("Komentarz: " + sentMario.getComment());
-                System.out.println("Odbiorca: " + getUserById(sentMario.getRecipientId()).getFullName());
+                System.out.println("Odbiorca: " + getRecipientsNames(sentMario.getRecipients()));
                 System.out.println();
             }
         }
@@ -115,9 +117,10 @@ public class MarioApp {
     public void sendMario(SentMario sentMario) {
         sentMarios.add(sentMario);
 
-        User recipient = getUserById(sentMario.getRecipientId());
-        if (recipient != null) {
-            recipient.addMario(sentMario.getMario().getType(), sentMario.getComment());
+        for (User recipient : sentMario.getRecipients()) {
+            if (users.contains(recipient)) {
+                recipient.addReceivedMario(sentMario.getMario().getType(), sentMario.getComment());
+            }
         }
     }
 
@@ -134,10 +137,24 @@ public class MarioApp {
     public List<SentMario> findSentMariosByRecipient(String recipientId) {
         List<SentMario> sentMariosByRecipient = new ArrayList<>();
         for (SentMario sentMario : sentMarios) {
-            if (sentMario.getRecipientId().equals(recipientId)) {
-                sentMariosByRecipient.add(sentMario);
+            for (User recipient : sentMario.getRecipients()) {
+                if (recipient.getIdUser().equals(recipientId)) {
+                    sentMariosByRecipient.add(sentMario);
+                    break;
+                }
             }
         }
         return sentMariosByRecipient;
+    }
+
+    private String getRecipientsNames(Set<User> recipients) {
+        StringBuilder names = new StringBuilder();
+        for (User recipient : recipients) {
+            names.append(recipient.getFullName()).append(", ");
+        }
+        if (names.length() > 0) {
+            names.delete(names.length() - 2, names.length());
+        }
+        return names.toString();
     }
 }

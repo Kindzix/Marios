@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User {
-    private final String idUser;
-    private final String firstName;
-    private final String lastName;
-    private final String email;
-    private final Map<String, String> receivedMario;
+    private String idUser;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private Map<String, String> receivedMario;
 
     public User(String idUser, String firstName, String lastName, String email) {
         this.idUser = idUser;
@@ -18,7 +18,7 @@ public class User {
         this.receivedMario = new HashMap<>();
     }
 
-    public void addMario(String marioType, String comment) {
+    public void addReceivedMario(String marioType, String comment) {
         receivedMario.put(marioType, comment);
     }
 
@@ -37,4 +37,5 @@ public class User {
     public String getEmail() {
         return email;
     }
+
 }

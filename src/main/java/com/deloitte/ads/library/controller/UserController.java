@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -21,16 +20,16 @@ public class UserController {
         this.marioApp = marioApp;
     }
 
-    @PostMapping("/")
-    public ResponseEntity<String> addUser(@RequestBody User user) {
-        marioApp.addUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
     @GetMapping()
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = marioApp.getUserList();
         return ResponseEntity.ok(users);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<String> addUser(@RequestBody User user) {
+        marioApp.addUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{userId}")

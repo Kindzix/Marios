@@ -1,19 +1,22 @@
 package com.deloitte.ads.library.repository;
+
+import java.util.Set;
+
 public class SentMario {
-    private final Mario marios;
+    private final Mario mario;
     private final String comment;
     private final String senderId;
-    private final String recipientId;
+    private final Set<User> recipients;
 
-    public SentMario(Mario marios, String comment, String senderId, String recipientId) {
-        this.marios = marios;
+    public SentMario(Mario mario, String comment, String senderId, Set<User> recipients) {
+        this.mario = mario;
         this.comment = comment;
         this.senderId = senderId;
-        this.recipientId = recipientId;
+        this.recipients = recipients;
     }
 
     public Mario getMario() {
-        return marios;
+        return mario;
     }
 
     public String getComment() {
@@ -24,7 +27,7 @@ public class SentMario {
         return senderId;
     }
 
-    public String getRecipientId() {
-        return recipientId;
+    public Set<User> getRecipients() {
+        return recipients;
     }
 }
