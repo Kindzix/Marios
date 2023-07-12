@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/marios")
@@ -23,8 +24,8 @@ public class MarioController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Mario>> getAllMarios() {
-        List<Mario> marios = marioApp.getMarioList();
+    public ResponseEntity<Set<Mario>> getAllMarios() {
+        Set<Mario> marios = marioApp.getMarioSet();
         return ResponseEntity.ok(marios);
     }
 
@@ -35,22 +36,22 @@ public class MarioController {
     }
 
     @GetMapping("/sent/{userId}")
-    public ResponseEntity<List<SentMario>> getSentMarios(@PathVariable String userId) {
+    public ResponseEntity<Set<SentMario>> getSentMarios(@PathVariable String userId) {
         User user = marioApp.getUserById(userId);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        List<SentMario> sentMarios = marioApp.findSentMariosBySender(userId);
+        Set<SentMario> sentMarios = marioApp.findSentMariosBySender(userId);
         return ResponseEntity.ok(sentMarios);
     }
 
     @GetMapping("/received/{userId}")
-    public ResponseEntity<List<SentMario>> getReceivedMarios(@PathVariable String userId) {
+    public ResponseEntity<Set<SentMario>> getReceivedMarios(@PathVariable String userId) {
         User user = marioApp.getUserById(userId);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        List<SentMario> receivedMarios = marioApp.findSentMariosByRecipient(userId);
+        Set<SentMario> receivedMarios = marioApp.findSentMariosByRecipient(userId);
         return ResponseEntity.ok(receivedMarios);
     }
 

@@ -40,7 +40,6 @@ public class MarioApp {
         SentMario sentMario3 = new SentMario(mario3, "Wspaniała praca!", "2", Sets.newHashSet(user1));
 
         this.sentMarios = Sets.newHashSet(sentMario1, sentMario2, sentMario3);
-
         sendMario(sentMario1);
         sendMario(sentMario2);
         sendMario(sentMario3);
@@ -54,12 +53,12 @@ public class MarioApp {
         users.add(user);
     }
 
-    public List<Mario> getMarioList() {
-        return new ArrayList<>(marios);
+    public Set<Mario> getMarioSet() {
+        return new HashSet<>(marios);
     }
 
-    public List<User> getUserList() {
-        return new ArrayList<>(users);
+    public Set<User> getUserSet() {
+        return new HashSet<>(users);
     }
 
     public User getUserById(String userId) {
@@ -79,7 +78,7 @@ public class MarioApp {
         }
 
         System.out.println("Wystawione kudosy przez użytkownika: " + user.getFullName());
-        List<SentMario> sentMariosByUser = findSentMariosBySender(userId);
+        Set<SentMario> sentMariosByUser = findSentMariosBySender(userId);
         if (sentMariosByUser.isEmpty()) {
             System.out.println("Brak wystawionych kudosów.");
         } else {
@@ -101,7 +100,7 @@ public class MarioApp {
         }
 
         System.out.println("Otrzymane kudosy przez użytkownika: " + user.getFullName());
-        List<SentMario> receivedMarios = findSentMariosByRecipient(userId);
+        Set<SentMario> receivedMarios = findSentMariosByRecipient(userId);
         if (receivedMarios.isEmpty()) {
             System.out.println("Brak otrzymanych kudosów.");
         } else {
@@ -124,8 +123,8 @@ public class MarioApp {
         }
     }
 
-    public List<SentMario> findSentMariosBySender(String senderId) {
-        List<SentMario> sentMariosBySender = new ArrayList<>();
+    public Set<SentMario> findSentMariosBySender(String senderId) {
+        Set<SentMario> sentMariosBySender = new HashSet<>();
         for (SentMario sentMario : sentMarios) {
             if (sentMario.getSenderId().equals(senderId)) {
                 sentMariosBySender.add(sentMario);
@@ -134,8 +133,8 @@ public class MarioApp {
         return sentMariosBySender;
     }
 
-    public List<SentMario> findSentMariosByRecipient(String recipientId) {
-        List<SentMario> sentMariosByRecipient = new ArrayList<>();
+    public Set<SentMario> findSentMariosByRecipient(String recipientId) {
+        Set<SentMario> sentMariosByRecipient = new HashSet<>();
         for (SentMario sentMario : sentMarios) {
             for (User recipient : sentMario.getRecipients()) {
                 if (recipient.getIdUser().equals(recipientId)) {

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
@@ -21,8 +22,8 @@ public class UserController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = marioApp.getUserList();
+    public ResponseEntity<Set<User>> getAllUsers() {
+        Set<User> users = marioApp.getUserSet();
         return ResponseEntity.ok(users);
     }
 
