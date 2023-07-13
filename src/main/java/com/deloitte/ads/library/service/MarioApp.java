@@ -35,7 +35,7 @@ public class MarioApp {
         this.marios = Sets.newHashSet(mario1, mario2, mario3, mario4, mario5);
 
 
-        SentMario sentMario1 = new SentMario(mario1, "", "1", Sets.newHashSet(user2));
+        SentMario sentMario1 = new SentMario(mario1, "", "1", Sets.newHashSet(user1));
         SentMario sentMario2 = new SentMario(mario2, "Niesamowite osiągnięcie!", "1", Sets.newHashSet(user3, user2));
         SentMario sentMario3 = new SentMario(mario3, "Wspaniała praca!", "2", Sets.newHashSet(user1));
 
@@ -46,11 +46,22 @@ public class MarioApp {
     }
 
     public void addMario(Mario mario) {
-        marios.add(mario);
+        if(mario.getIdMarios() != null && mario.getType() != null) {
+            if (isMarioIdAlreadyUsed(mario.getIdMarios()) || isTypAlreadyUsed(mario.getType())) {
+                return;
+            }
+            marios.add(mario);
+        }
     }
 
     public void addUser(User user) {
-        users.add(user);
+        if(user.getIdUser() != null && user.getFirstName() != null  && user.getLastName() != null && user.getEmail() != null && user.getFirstName().matches("^[a-zA-Z]+") && user.getLastName().matches("^[a-zA-Z]+") && user.getEmail().endsWith("@example.com")) {
+            if (isUserIdAlreadyUsed(user.getIdUser()) || isEmailAlreadyUsed(user.getEmail())) {
+                return;
+            }
+            users.add(user);
+        }
+
     }
 
     public Set<Mario> getMarioSet() {
@@ -115,10 +126,12 @@ public class MarioApp {
 
     public void sendMario(SentMario sentMario) {
         sentMarios.add(sentMario);
-
-        for (User recipient : sentMario.getRecipients()) {
-            if (users.contains(recipient)) {
-                recipient.addReceivedMario(sentMario.getMario().getType(), sentMario.getComment());
+        String sender = sentMario.getSenderId();
+        if(sentMario.getMario() != null && sentMario.getSenderId() != null && sentMario.getRecipients() != null) {
+            for (User recipient : sentMario.getRecipients()) {
+                if (users.contains(recipient) && !recipient.getIdUser().equals(sender)) {
+                    recipient.addReceivedMario(sentMario.getMario().getType(), sentMario.getComment());
+                }
             }
         }
     }
@@ -155,5 +168,41 @@ public class MarioApp {
             names.delete(names.length() - 2, names.length());
         }
         return names.toString();
+    }
+
+    public boolean isUserIdAlreadyUsed(String userId) {
+        for (User user : users) {
+            if (user.getIdUser().equals(userId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isEmailAlreadyUsed(String email) {
+        for (User user : users) {
+            if (user.getEmail().equals(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isMarioIdAlreadyUsed(String marioId) {
+        for (Mario mario : marios) {
+            if (mario.getIdMarios().equals(marioId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isTypAlreadyUsed(String type) {
+        for (Mario mario : marios) {
+            if (mario.getType().equals(type)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
