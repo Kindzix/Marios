@@ -24,13 +24,13 @@ public class MarioService {
 
     private static final Logger logger = Logger.getLogger(MarioService.class.getName());
 
-    private  MarioRepository marioRepository;
-    private  SentMarioRepository sentMarioRepository;
-    private  UserRepository userRepository;
+    private final MarioRepository marioRepository;
+    private final SentMarioRepository sentMarioRepository;
+    private final UserRepository userRepository;
 
-    private  MariosValidator mariosValidator;
-    private  UserValidator userValidator;
-    private  SentMarioValidator sentMarioValidator;
+    private final MariosValidator mariosValidator;
+    private final UserValidator userValidator;
+    private final SentMarioValidator sentMarioValidator;
 
     @Autowired
     public MarioService(MarioRepository marioRepository, SentMarioRepository sentMarioRepository, UserRepository userRepository, MariosValidator mariosValidator, UserValidator userValidator, SentMarioValidator sentMarioValidator) {
@@ -47,8 +47,8 @@ public class MarioService {
             marioRepository.save(mario);
             logger.log(Level.INFO, "Mario added: {0}", mario);
         } else{
-            logger.log(Level.WARNING, "Mario: {0}", mario.getType());
-            throw new ResponseStatusException(HttpStatus.IM_USED, "User: {0} " + mario + " bad request.");
+            logger.log(Level.WARNING, "Cannot add Mario: {0}", mario.getType());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot add: {0} " + mario + " bad request.");
         }
     }
 
@@ -57,8 +57,8 @@ public class MarioService {
             userRepository.save(user);
             logger.log(Level.INFO, "User added: {0}", user);
         } else {
-            logger.log(Level.WARNING, "User: {0}", user);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User: {0} " + user + " bad request.");
+            logger.log(Level.WARNING, "Cannot add user: {0}", user);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot add User: {0} " + user + " bad request.");
         }
     }
 
