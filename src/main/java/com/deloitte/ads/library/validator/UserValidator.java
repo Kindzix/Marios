@@ -20,12 +20,23 @@ public class UserValidator {
             return false;
         }
 
+        if(!user.getEmail().endsWith("@example.com"))
+        {
+            return false;
+        }
+
+        if(userRepository.existsByEmail(user.getEmail()))
+        {
+            return false;
+        }
+
         if (user.getFirstName() == null || user.getFirstName().isEmpty() ||
                 user.getLastName() == null || user.getLastName().isEmpty() ||
                 user.getEmail() == null || user.getEmail().isEmpty()) {
             return false;
         }
 
-        return !userRepository.existsByEmail(user.getEmail());
+        return user.getFirstName().matches("^[a-zA-Z]+") && user.getLastName().matches("^[a-zA-Z]+");
+
     }
 }

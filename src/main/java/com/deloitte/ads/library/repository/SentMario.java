@@ -1,9 +1,9 @@
 package com.deloitte.ads.library.repository;
 
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "SENT_MARIO")
@@ -24,6 +24,7 @@ public class SentMario {
     private User sender;
 
     @ManyToMany
+    @JsonBackReference
     @JoinTable(
             name = "SENT_MARIO_RECIPIENTS",
             joinColumns = @JoinColumn(name = "SENT_MARIO_ID"),

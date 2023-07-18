@@ -9,26 +9,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import javax.persistence.EntityNotFoundException;
-import java.util.Arrays;
+;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static com.deloitte.ads.library.repository.UserRole.USER;
 
 @Service
 public class MarioService {
 
-    private final MarioRepository marioRepository;
-    private final SentMarioRepository sentMarioRepository;
-    private final UserRepository userRepository;
+    private static final Logger logger = Logger.getLogger(MarioService.class.getName());
 
-    private final MariosValidator mariosValidator;
-    private final UserValidator userValidator;
-    private final SentMarioValidator sentMarioValidator;
+    private  MarioRepository marioRepository;
+    private  SentMarioRepository sentMarioRepository;
+    private  UserRepository userRepository;
+
+    private  MariosValidator mariosValidator;
+    private  UserValidator userValidator;
+    private  SentMarioValidator sentMarioValidator;
 
     @Autowired
     public MarioService(MarioRepository marioRepository, SentMarioRepository sentMarioRepository, UserRepository userRepository, MariosValidator mariosValidator, UserValidator userValidator, SentMarioValidator sentMarioValidator) {
@@ -43,12 +45,20 @@ public class MarioService {
     public void addMario(Mario mario) {
         if (mariosValidator.isValidMarios(mario)) {
             marioRepository.save(mario);
+            logger.log(Level.INFO, "Mario added: {0}", mario);
+        } else{
+            logger.log(Level.WARNING, "Mario: {0}", mario.getType());
+            throw new ResponseStatusException(HttpStatus.IM_USED, "User: {0} " + mario + " bad request.");
         }
     }
 
     public void addUser(User user) {
         if (userValidator.isValidUser(user)) {
             userRepository.save(user);
+            logger.log(Level.INFO, "User added: {0}", user);
+        } else {
+            logger.log(Level.WARNING, "User: {0}", user);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User: {0} " + user + " bad request.");
         }
     }
 
@@ -79,25 +89,29 @@ public class MarioService {
     }
 
     public void sendMarios(SentMario sentMario) {
-        if (sentMarioValidator.isValidSentMario(sentMario)){
-                Optional<Mario> marioOptional = marioRepository.findById(sentMario.getMario().getIdMarios());
+        if (sentMarioValidator.isValidSentMario(sentMario)) {
+            Optional<Mario> marioOptional = marioRepository.findById(sentMario.getMario().getIdMarios());
             if (marioOptional.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Mario with ID " + sentMario.getMario().getIdMarios() + " not found.");
+                logger.log(Level.WARNING, "Mario with ID {0} not found.", sentMario.getMario().getIdMarios());
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Mario with ID " + sentMario.getMario().getIdMarios() + " not found.");
             }
 
             User sender = userRepository.findByEmail(sentMario.getSender().getEmail());
             if (sender == null) {
+                logger.log(Level.WARNING, "User with email {0} not found.", sentMario.getSender().getEmail());
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with email " + sentMario.getSender().getEmail() + " not found.");
             }
+
             sentMarioRepository.save(sentMario);
 
             for (User recipient : sentMario.getRecipients()) {
                 recipient.getReceivedMarios().add(sentMario);
                 userRepository.save(recipient);
             }
-    }
-    }
 
+            logger.log(Level.INFO, "Marios sent: {0}", sentMario);
+        }
+    }
 
     public void initializeMarios() {
         Mario mario1 = new Mario("Wielki dzięki, za pomoc!");
@@ -122,10 +136,10 @@ public class MarioService {
 
         SentMario sentMario1 = new SentMario(mario1 , "", user3, Sets.newHashSet(user2));
         SentMario sentMario2 = new SentMario(mario2, "Bardzo pomogło!", user1, Sets.newHashSet(user2, user3));
+        SentMario sentMario3 = new SentMario(mario2, "Super", user2, Sets.newHashSet(user1, user3));
 
         sendMarios(sentMario1);
         sendMarios(sentMario2);
-
+        sendMarios(sentMario3);
     }
-
 }

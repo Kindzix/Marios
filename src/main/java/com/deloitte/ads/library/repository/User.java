@@ -1,5 +1,8 @@
 package com.deloitte.ads.library.repository;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,9 +29,11 @@ public class User {
     private UserRole role;
 
     @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<SentMario> sentMarios = new HashSet<>();
 
     @ManyToMany(mappedBy = "recipients", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<SentMario> receivedMarios = new HashSet<>();
 
     public User() {

@@ -12,6 +12,7 @@ public class MariosValidator {
 
     @Autowired
     public MariosValidator(MarioRepository marioRepository) {
+
         this.marioRepository = marioRepository;
     }
 
