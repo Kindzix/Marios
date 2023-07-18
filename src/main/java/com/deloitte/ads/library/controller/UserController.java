@@ -1,41 +1,41 @@
 package com.deloitte.ads.library.controller;
 
 import com.deloitte.ads.library.repository.User;
-import com.deloitte.ads.library.service.MarioApp;
+import com.deloitte.ads.library.repository.UserRepository;
+import com.deloitte.ads.library.service.MarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    private final MarioApp marioApp;
+    private final MarioService marioService;
 
     @Autowired
-    public UserController(MarioApp marioApp) {
-        this.marioApp = marioApp;
+    public UserController(MarioService marioService) {
+        this.marioService = marioService;
     }
 
     @GetMapping()
     public ResponseEntity<Set<User>> getAllUsers() {
-        Set<User> users = marioApp.getUserSet();
+        Set<User> users = marioService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
     @PostMapping("/add")
     public ResponseEntity<String> addUser(@RequestBody User user) {
-        marioApp.addUser(user);
+        marioService.addUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable String userId) {
-        User user = marioApp.getUserById(userId);
+    @GetMapping("/{userEmail}")
+    public ResponseEntity<User> getUserByEmail(@PathVariable String userEmail) {
+        User user = marioService.getUserByEmail(userEmail);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
