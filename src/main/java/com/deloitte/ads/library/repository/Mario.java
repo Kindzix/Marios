@@ -1,30 +1,42 @@
 package com.deloitte.ads.library.repository;
 
+import java.util.Set;
+import java.util.UUID;
 import javax.persistence.*;
 
-@Entity(name="MARIO")
+@Entity
+@Table(name = "mario")
 public class Mario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID")
-    private Long idMarios;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    @Column(name = "TYPE")
+    @Column(name = "uuid")
+    private UUID uuid;
+
+    @Column(name = "type")
     private String type;
 
-    public Mario() {}
+    public Mario() {
+    }
 
     public Mario(String type) {
         this.type = type;
+        this.uuid = UUID.randomUUID();
     }
 
-    public Long getIdMarios() {
-        return idMarios;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdMarios(Long idMarios) {
-        this.idMarios = idMarios;
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getType() {
@@ -38,7 +50,7 @@ public class Mario {
     @Override
     public String toString() {
         return "Mario{" +
-                "idMarios=" + idMarios +
+                "idMarios=" + id +
                 ", type='" + type + '\'' +
                 '}';
     }

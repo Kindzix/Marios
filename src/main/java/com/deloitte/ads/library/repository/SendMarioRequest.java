@@ -1,18 +1,21 @@
 package com.deloitte.ads.library.repository;
+
 import java.util.Set;
+
+import java.util.Set;
+
 public class SendMarioRequest {
-
-    private Long marioId;
+    private String marioUuid;
     private String comment;
-    private String senderEmail;
-    private Set<String> recipientEmails;
+    private String senderUuid;
+    private Set<String> recipientUuids;
 
-    public Long getMarioId() {
-        return marioId;
+    public String getMarioUuid() {
+        return marioUuid;
     }
 
-    public void setMarioId(Long marioId) {
-        this.marioId = marioId;
+    public void setMarioUuid(String marioUuid) {
+        this.marioUuid = marioUuid;
     }
 
     public String getComment() {
@@ -23,26 +26,29 @@ public class SendMarioRequest {
         this.comment = comment;
     }
 
-    public String getSenderEmail() {
-        return senderEmail;
+    public String getSenderUuid() {
+        return senderUuid;
     }
 
-    public void setSenderEmail(String senderEmail) {
-        this.senderEmail = senderEmail;
+    public void setSenderUuid(String senderUuid) {
+        this.senderUuid = senderUuid;
     }
 
-    public Set<String> getRecipientEmails() {
-        return recipientEmails;
+    public Set<String> getRecipientUuids() {
+        return recipientUuids;
     }
 
-    public void setRecipientEmails(Set<String> recipientEmails) {
-        this.recipientEmails = recipientEmails;
+    public void setRecipientUuids(Set<String> recipientUuids) {
+        this.recipientUuids = recipientUuids;
     }
 
-    public SendMarioRequest(Long marioId, String comment, String senderEmail, Set<String> recipientEmails) {
-        this.marioId = marioId;
-        this.comment = comment;
-        this.senderEmail = senderEmail;
-        this.recipientEmails = recipientEmails;
+    public SentMario toSentMario(Mario mario, User sender, Set<User> recipients, String comment) {
+        SentMario sentMario = new SentMario();
+        sentMario.setMario(mario);
+        sentMario.setComment(comment);
+        sentMario.setSender(sender);
+        sentMario.setRecipients(recipients);
+        return sentMario;
     }
 }
+

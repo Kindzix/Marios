@@ -1,7 +1,8 @@
 package com.deloitte.ads.library.controller;
 
+import com.deloitte.ads.library.repository.Mario;
 import com.deloitte.ads.library.repository.User;
-import com.deloitte.ads.library.repository.UserRepository;
+import com.deloitte.ads.library.repository.UserRequest;
 import com.deloitte.ads.library.service.MarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
@@ -27,18 +29,27 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<String> addUser(@RequestBody User user) {
-        marioService.addUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    @GetMapping("/{uuid}")
+    public ResponseEntity<User> getUserByUuid(@PathVariable String uuid) {
+        try {
+            UUID userUuid = UUID.fromString(uuid);
+            User user = marioService.getUserByUuid(userUuid);
+            if (user == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(user);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
-    @GetMapping("/{userEmail}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String userEmail) {
-        User user = marioService.getUserByEmail(userEmail);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
+    @PostMapping("/add")
+    public ResponseEntity<String> addUser(@RequestBody UserRequest userRequest) {
+        try {
+            marioService.addUserFromUserRequest(userRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(user);
     }
 }

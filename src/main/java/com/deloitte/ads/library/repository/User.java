@@ -1,42 +1,51 @@
 package com.deloitte.ads.library.repository;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "USERS")
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import javax.persistence.*;
+
+@Entity
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "FIRST_NAME")
+    @Column(name = "uuid")
+    private UUID uuid;
+
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "LAST_NAME")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "ROLE")
+    @Column(name = "role")
     private UserRole role;
 
-    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<SentMario> sentMarios = new HashSet<>();
 
-    @ManyToMany(mappedBy = "recipients", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "recipients", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<SentMario> receivedMarios = new HashSet<>();
 
     public User() {
+
     }
 
     public User(String firstName, String lastName, String email, UserRole role) {
@@ -44,10 +53,19 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.role = role;
+        this.uuid = UUID.randomUUID();
     }
 
     public Long getId() {
         return id;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getFirstName() {
@@ -88,6 +106,15 @@ public class User {
 
     public Set<SentMario> getReceivedMarios() {
         return receivedMarios;
+    }
+
+    public static User fromUserRequest(UserRequest userRequest) {
+        User user = new User();
+        user.setFirstName(userRequest.getFirstName());
+        user.setLastName(userRequest.getLastName());
+        user.setEmail(userRequest.getEmail());
+        user.setRole(userRequest.getRoleName());
+        return user;
     }
 
     @Override

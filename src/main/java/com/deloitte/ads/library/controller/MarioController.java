@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/marios")
@@ -24,63 +24,74 @@ public class MarioController {
 
     @GetMapping()
     public ResponseEntity<Set<Mario>> getAllMarios() {
-        Set<Mario> marios = marioService.getMarioSet();
+        Set<Mario> marios = marioService.getAllMarios();
         return ResponseEntity.ok(marios);
     }
 
+    @GetMapping("/{uuid}")
+    public ResponseEntity<Mario> getMarioByUuid(@PathVariable String uuid) {
+        try {
+            UUID marioUuid = UUID.fromString(uuid);
+            Mario mario = marioService.getMarioByUuid(marioUuid);
+            if (mario == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(mario);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @PostMapping("/add")
-    public ResponseEntity<String> addMarios(@RequestBody Mario mario) {
-        marioService.addMario(mario);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<String> addMarios(@RequestBody MarioRequest marioRequest) {
+        try {
+            marioService.addMarioFromMarioRequest(marioRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PostMapping("/send")
     public ResponseEntity<String> sendMario(@RequestBody SendMarioRequest sentMarioRequest) {
-        Mario mario = marioService.getMarioById(sentMarioRequest.getMarioId());
-        if (mario == null) {
-            return ResponseEntity.badRequest().body("Mario with ID " + sentMarioRequest.getMarioId() + " not found.");
+        try {
+            marioService.sendMariosFromSendMarioRequest(sentMarioRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().build();
         }
+    }
 
-        User sender = marioService.getUserByEmail(sentMarioRequest.getSenderEmail());
-        if (sender == null) {
-            return ResponseEntity.badRequest().body("User with email " + sentMarioRequest.getSenderEmail() + " not found.");
-        }
-
-        Set<User> recipients = new HashSet<>();
-        for (String recipientEmail : sentMarioRequest.getRecipientEmails()) {
-            User recipient = marioService.getUserByEmail(recipientEmail);
-            if (recipient != null) {
-                recipients.add(recipient);
+    @GetMapping("/sent/{senderUuid}")
+    public ResponseEntity<Set<SentMario>> getSentMarios(@PathVariable String senderUuid) {
+        try {
+            UUID senderUserUuid = UUID.fromString(senderUuid);
+            Set<SentMario> sentMarios = marioService.findSentMariosBySenderUuid(senderUserUuid);
+            if (sentMarios.isEmpty()) {
+                return ResponseEntity.notFound().build();
             }
+            return ResponseEntity.ok(sentMarios);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().build();
         }
-
-        SentMario sentMario = new SentMario(mario, sentMarioRequest.getComment(), sender, recipients);
-        marioService.sendMarios(sentMario);
-
-        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/sent/{senderEmail}")
-    public ResponseEntity<Set<SentMario>> getSentMarios(@PathVariable String senderEmail) {
-        Set<SentMario> sentMarios = marioService.findSentMariosBySenderEmail(senderEmail);
-        if (sentMarios.isEmpty()) {
-            return ResponseEntity.notFound().build();
+    @GetMapping("/received/{recipientUuid}")
+    public ResponseEntity<Set<SentMario>> getReceivedMarios(@PathVariable String recipientUuid) {
+        try {
+            UUID recipientUserUuid = UUID.fromString(recipientUuid);
+            Set<SentMario> receivedMarios = marioService.findSentMariosByRecipientUuid(recipientUserUuid);
+            if (receivedMarios.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(receivedMarios);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(sentMarios);
     }
 
-    @GetMapping("/received/{recipientEmail}")
-    public ResponseEntity<Set<SentMario>> getReceivedMarios(@PathVariable String recipientEmail) {
-        Set<SentMario> receivedMarios = marioService.findSentMariosByRecipientEmail(recipientEmail);
-        if (receivedMarios.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(receivedMarios);
+    @PostConstruct
+    public void initializeMarios() {
+        marioService.initializeMarios();
     }
-
-//    @PostConstruct
-//    public void initializeMarios() {
-//        marioService.initializeMarios();
-//    }
 }
-

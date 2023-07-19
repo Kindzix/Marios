@@ -3,46 +3,63 @@ package com.deloitte.ads.library.repository;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import javax.persistence.*;
 import java.util.Set;
+import java.util.UUID;
+import javax.persistence.*;
 
-@Entity(name = "SENT_MARIO")
+@Entity
+@Table(name = "sent_mario")
 public class SentMario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "uuid")
+    private UUID uuid;
+
     @ManyToOne
-    @JoinColumn(name = "MARIO_ID")
+    @JoinColumn(name = "mario_id")
     private Mario mario;
 
+    @Column(name = "comment")
     private String comment;
 
     @ManyToOne
-    @JoinColumn(name = "SENDER_ID")
+    @JoinColumn(name = "sender_id")
     private User sender;
 
     @ManyToMany
     @JsonBackReference
     @JoinTable(
-            name = "SENT_MARIO_RECIPIENTS",
-            joinColumns = @JoinColumn(name = "SENT_MARIO_ID"),
-            inverseJoinColumns = @JoinColumn(name = "RECIPIENT_ID")
+            name = "sent_mario_recipients",
+            joinColumns = @JoinColumn(name = "sent_mario_id"),
+            inverseJoinColumns = @JoinColumn(name = "recipient_id")
     )
     private Set<User> recipients;
 
-    public SentMario() {}
+    public SentMario() {
+    }
 
     public SentMario(Mario mario, String comment, User sender, Set<User> recipients) {
         this.mario = mario;
         this.comment = comment;
         this.sender = sender;
         this.recipients = recipients;
+        this.uuid = UUID.randomUUID();
     }
 
     public Long getId() {
         return id;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public Mario getMario() {
@@ -76,7 +93,6 @@ public class SentMario {
     public void setRecipients(Set<User> recipients) {
         this.recipients = recipients;
     }
-
     @Override
     public String toString() {
         return "SentMario{" +
