@@ -32,7 +32,8 @@ public class UserValidator {
 
         if (user.getFirstName() == null || user.getFirstName().isEmpty() ||
                 user.getLastName() == null || user.getLastName().isEmpty() ||
-                user.getEmail() == null || user.getEmail().isEmpty()) {
+                user.getEmail() == null || user.getEmail().isEmpty() ||
+                user.getRole() == null) {
             return false;
         }
 

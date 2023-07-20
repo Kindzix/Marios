@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +17,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static com.deloitte.ads.library.repository.UserRole.USER;
+
 
 @Service
 public class MarioService {

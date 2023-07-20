@@ -7,7 +7,7 @@ public class UserRequest {
 
     private String email;
 
-    private UserRole roleName;
+    private UserRole role;
 
     public String getFirstName() {
         return firstName;
@@ -33,11 +33,11 @@ public class UserRequest {
         this.email = email;
     }
 
-    public UserRole getRoleName() {
-        return roleName;
+    public UserRole getRole() {
+        return role;
     }
 
-    public void setRoleName(UserRole roleName) {
-        this.roleName = roleName;
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 }

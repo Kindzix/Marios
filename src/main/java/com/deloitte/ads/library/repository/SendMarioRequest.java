@@ -3,6 +3,7 @@ package com.deloitte.ads.library.repository;
 import java.util.Set;
 
 import java.util.Set;
+import java.util.UUID;
 
 public class SendMarioRequest {
     private String marioUuid;
@@ -48,6 +49,7 @@ public class SendMarioRequest {
         sentMario.setComment(comment);
         sentMario.setSender(sender);
         sentMario.setRecipients(recipients);
+        sentMario.setUuid(UUID.randomUUID());
         return sentMario;
     }
 }

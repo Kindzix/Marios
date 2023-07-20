@@ -51,7 +51,6 @@ class UserValidatorTest {
 
         assertFalse(userValidator.isValidUser(user));
     }
-
     @Test
      void testIsValidUserDuplicateEmail() {
         User user = new User();

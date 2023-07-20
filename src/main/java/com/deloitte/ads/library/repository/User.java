@@ -5,11 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
-import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -113,7 +109,8 @@ public class User {
         user.setFirstName(userRequest.getFirstName());
         user.setLastName(userRequest.getLastName());
         user.setEmail(userRequest.getEmail());
-        user.setRole(userRequest.getRoleName());
+        user.setRole(userRequest.getRole());
+        user.setUuid(UUID.randomUUID());
         return user;
     }
 
