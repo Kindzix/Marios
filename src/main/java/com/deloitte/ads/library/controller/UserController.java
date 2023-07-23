@@ -44,12 +44,13 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addUser(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<User> addUser(@RequestBody UserRequest userRequest) {
         try {
-            marioService.addUserFromUserRequest(userRequest);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            User newUser = marioService.addUserFromUserRequest(userRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.badRequest().build();
         }
     }
+
 }

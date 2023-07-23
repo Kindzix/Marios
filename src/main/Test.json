@@ -1,0 +1,34 @@
+[
+  {
+    "Received":{
+      "firstName":"Kinga",
+      "lastName":"Banasiak",
+      "email":"k.banasiak@example.com",
+      "role": "USER"
+    },
+    "Sent":{
+      "firstName":"Kinga",
+      "lastName":"Banasiak",
+      "email":"kinga.b@example.com",
+      "role": "USER"
+    },
+    "marios":{
+      "type":"OK"
+    },
+    "Sentmarios":{
+      "marioUuid": "mariosUuid",
+      "comment": "Bardzo pomocne!",
+      "senderUuid": "senderUuid",
+      "recipientUuids": ["recipientUuid"]
+    }
+  },
+  {
+    "user":{
+      "key":"value2"
+    },
+    "marios":{
+      "key":"value2"
+    }
+  }
+
+]

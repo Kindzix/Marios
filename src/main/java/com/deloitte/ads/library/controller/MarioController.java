@@ -28,39 +28,26 @@ public class MarioController {
         return ResponseEntity.ok(marios);
     }
 
-    @GetMapping("/{uuid}")
-    public ResponseEntity<Mario> getMarioByUuid(@PathVariable String uuid) {
-        try {
-            UUID marioUuid = UUID.fromString(uuid);
-            Mario mario = marioService.getMarioByUuid(marioUuid);
-            if (mario == null) {
-                return ResponseEntity.notFound().build();
-            }
-            return ResponseEntity.ok(mario);
-        } catch (IllegalArgumentException ex) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
     @PostMapping("/add")
-    public ResponseEntity<String> addMarios(@RequestBody MarioRequest marioRequest) {
+    public ResponseEntity<Mario> addMarios(@RequestBody MarioRequest marioRequest) {
         try {
-            marioService.addMarioFromMarioRequest(marioRequest);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            Mario newMario = marioService.addMarioFromMarioRequest(marioRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newMario);
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PostMapping("/send")
-    public ResponseEntity<String> sendMario(@RequestBody SendMarioRequest sentMarioRequest) {
+    public ResponseEntity<SentMario> sendMario(@RequestBody SendMarioRequest sentMarioRequest) {
         try {
-            marioService.sendMariosFromSendMarioRequest(sentMarioRequest);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            SentMario newSentMario = marioService.sendMariosFromSendMarioRequest(sentMarioRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newSentMario);
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.badRequest().build();
         }
     }
+
 
     @GetMapping("/sent/{senderUuid}")
     public ResponseEntity<Set<SentMario>> getSentMarios(@PathVariable String senderUuid) {

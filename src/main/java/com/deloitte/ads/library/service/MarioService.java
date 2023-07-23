@@ -4,7 +4,6 @@ import com.deloitte.ads.library.repository.*;
 import com.deloitte.ads.library.validator.MariosValidator;
 import com.deloitte.ads.library.validator.SentMarioValidator;
 import com.deloitte.ads.library.validator.UserValidator;
-import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,8 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
-import static com.deloitte.ads.library.repository.UserRole.USER;
 
 
 @Service
@@ -63,9 +60,10 @@ public class MarioService {
         }
     }
 
-    public void addUserFromUserRequest(UserRequest userRequest) {
+    public User addUserFromUserRequest(UserRequest userRequest) {
         User user = User.fromUserRequest(userRequest);
         addUser(user);
+        return user;
     }
 
     public Set<User> getAllUsers() {
@@ -114,7 +112,7 @@ public class MarioService {
         }
     }
 
-    public void sendMariosFromSendMarioRequest(SendMarioRequest sentMarioRequest) {
+    public SentMario sendMariosFromSendMarioRequest(SendMarioRequest sentMarioRequest) {
         UUID marioUuid = UUID.fromString(sentMarioRequest.getMarioUuid());
         Mario mario = getMarioByUuid(marioUuid);
         if (mario == null) {
@@ -137,11 +135,13 @@ public class MarioService {
 
         SentMario sentMario = sentMarioRequest.toSentMario(mario, sender, recipients, sentMarioRequest.getComment());
         sendMarios(sentMario);
+        return sentMario;
     }
 
-    public void addMarioFromMarioRequest(MarioRequest marioRequest) {
+    public Mario addMarioFromMarioRequest(MarioRequest marioRequest) {
         Mario mario = new Mario(marioRequest.getType());
         addMario(mario);
+        return mario;
     }
 
     public void initializeMarios() {
