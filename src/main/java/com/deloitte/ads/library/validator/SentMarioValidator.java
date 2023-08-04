@@ -28,6 +28,10 @@ public class SentMarioValidator {
             sentMario.setComment("");
         }
 
+        if (sentMario.getTheme() == null) {
+            sentMario.setTheme("");
+        }
+
         return sentMario.getId() == null || !sentMarioRepository.existsById(sentMario.getId());
     }
 }

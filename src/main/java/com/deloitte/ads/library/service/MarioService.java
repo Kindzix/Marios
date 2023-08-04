@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static com.deloitte.ads.library.repository.UserRole.USER;
+
 
 @Service
 public class MarioService {
@@ -133,7 +135,7 @@ public class MarioService {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
 
-        SentMario sentMario = sentMarioRequest.toSentMario(mario, sender, recipients, sentMarioRequest.getComment());
+        SentMario sentMario = sentMarioRequest.toSentMario(mario, sender, recipients, sentMarioRequest.getComment(), sentMarioRequest.getTheme());
         sendMarios(sentMario);
         return sentMario;
     }
@@ -165,9 +167,9 @@ public class MarioService {
 //        addUser(user2);
 //        addUser(user3);
 //
-//        SentMario sentMario1 = new SentMario(mario1 , "", user3, Sets.newHashSet(user2));
-//        SentMario sentMario2 = new SentMario(mario2, "Bardzo pomogło!", user1, Sets.newHashSet(user2, user3));
-//        SentMario sentMario3 = new SentMario(mario2, "Super", user2, Sets.newHashSet(user1, user3));
+//        SentMario sentMario1 = new SentMario(mario1 , "", user3, Sets.newHashSet(user2), "abc");
+//        SentMario sentMario2 = new SentMario(mario2, "Bardzo pomogło!", user1, Sets.newHashSet(user2, user3), "Super ekstra wowo");
+//        SentMario sentMario3 = new SentMario(mario2, "Super", user2, Sets.newHashSet(user1, user3),"wow");
 //
 //        sendMarios(sentMario1);
 //        sendMarios(sentMario2);

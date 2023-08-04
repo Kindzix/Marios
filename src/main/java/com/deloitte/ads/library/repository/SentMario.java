@@ -23,8 +23,12 @@ public class SentMario {
     @JoinColumn(name = "mario_id")
     private Mario mario;
 
+    @Column(name = "theme")
+    private String theme;
+
     @Column(name = "comment")
     private String comment;
+
 
     @ManyToOne
     @JoinColumn(name = "sender_id")
@@ -42,9 +46,10 @@ public class SentMario {
     public SentMario() {
     }
 
-    public SentMario(Mario mario, String comment, User sender, Set<User> recipients) {
+    public SentMario(Mario mario, String comment, User sender, Set<User> recipients, String theme) {
         this.mario = mario;
         this.comment = comment;
+        this.theme = theme;
         this.sender = sender;
         this.recipients = recipients;
         this.uuid = UUID.randomUUID();
@@ -70,6 +75,14 @@ public class SentMario {
         this.mario = mario;
     }
 
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
     public String getComment() {
         return comment;
     }
@@ -77,6 +90,7 @@ public class SentMario {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
 
     public User getSender() {
         return sender;
