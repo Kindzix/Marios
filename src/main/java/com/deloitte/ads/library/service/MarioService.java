@@ -158,33 +158,33 @@ public class MarioService {
     }
 
     public void initializeMarios() {
-        Mario mario1 = new Mario("Wielki dzięki, za pomoc!");
-        Mario mario2 = new Mario("Super wykonałeś to zadanie!");
-        Mario mario3 = new Mario("Doskonale się spisałeś!");
-        Mario mario4 = new Mario("Gratuluję, świetnie wykonanej pracy!");
-        Mario mario5 = new Mario("Ułatwiło mi to dzień/pracę!");
-
-        addMario(mario1);
-        addMario(mario2);
-        addMario(mario3);
-        addMario(mario4);
-        addMario(mario5);
-
-        User user1 = new User("Olga", "Przybysz", "olga.przybysz@example.com", USER);
-        User user2 = new User("Jagoda", "Rogala", "jagoda.rogala@example.com", USER);
-        User user3 = new User("Norbert", "Michalak", "norbert.michalak@example.com", USER);
-
-        addUser(user1);
-        addUser(user2);
-        addUser(user3);
-
-        SentMario sentMario1 = new SentMario(mario1 , "", user3, Sets.newHashSet(user2), "abc");
-        SentMario sentMario2 = new SentMario(mario2, "Bardzo pomogło!", user1, Sets.newHashSet(user2, user3), "Super ekstra wowo");
-        SentMario sentMario3 = new SentMario(mario2, "Super", user2, Sets.newHashSet(user1, user3),"wow");
-
-        sendMarios(sentMario1);
-        sendMarios(sentMario2);
-        sendMarios(sentMario3);
+//        Mario mario1 = new Mario("Wielki dzięki, za pomoc!");
+//        Mario mario2 = new Mario("Super wykonałeś to zadanie!");
+//        Mario mario3 = new Mario("Doskonale się spisałeś!");
+//        Mario mario4 = new Mario("Gratuluję, świetnie wykonanej pracy!");
+//        Mario mario5 = new Mario("Ułatwiło mi to dzień/pracę!");
+//
+//        addMario(mario1);
+//        addMario(mario2);
+//        addMario(mario3);
+//        addMario(mario4);
+//        addMario(mario5);
+//
+//        User user1 = new User("Olga", "Przybysz", "olga.przybysz@example.com", USER);
+//        User user2 = new User("Jagoda", "Rogala", "jagoda.rogala@example.com", USER);
+//        User user3 = new User("Norbert", "Michalak", "norbert.michalak@example.com", USER);
+//
+//        addUser(user1);
+//        addUser(user2);
+//        addUser(user3);
+//
+//        SentMario sentMario1 = new SentMario(mario1 , "", user3, Sets.newHashSet(user2), "abc");
+//        SentMario sentMario2 = new SentMario(mario2, "Bardzo pomogło!", user1, Sets.newHashSet(user2, user3), "Super ekstra wowo");
+//        SentMario sentMario3 = new SentMario(mario2, "Super", user2, Sets.newHashSet(user1, user3),"wow");
+//
+//        sendMarios(sentMario1);
+//        sendMarios(sentMario2);
+//        sendMarios(sentMario3);
     }
 
 }

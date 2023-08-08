@@ -32,6 +32,10 @@ public class SentMarioValidator {
             sentMario.setTheme("");
         }
 
+        if(sentMario.getRecipientNames() == null) {
+            return false;
+        }
+
         return sentMario.getId() == null || !sentMarioRepository.existsById(sentMario.getId());
     }
 }
