@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import javax.persistence.*;
 
 @Entity
@@ -57,6 +58,24 @@ public class SentMario {
 
     public Long getId() {
         return id;
+    }
+
+    public String getRecipientFirstNames() {
+        if (recipients != null && !recipients.isEmpty()) {
+            return recipients.stream()
+                    .map(User::getFirstName)
+                    .collect(Collectors.joining(", "));
+        }
+        return null;
+    }
+
+    public String getRecipientLastNames() {
+        if (recipients != null && !recipients.isEmpty()) {
+            return recipients.stream()
+                    .map(User::getLastName)
+                    .collect(Collectors.joining(", "));
+        }
+        return null;
     }
 
     public UUID getUuid() {

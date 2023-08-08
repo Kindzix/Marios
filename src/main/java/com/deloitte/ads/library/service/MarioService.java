@@ -4,6 +4,7 @@ import com.deloitte.ads.library.repository.*;
 import com.deloitte.ads.library.validator.MariosValidator;
 import com.deloitte.ads.library.validator.SentMarioValidator;
 import com.deloitte.ads.library.validator.UserValidator;
+import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -146,6 +147,16 @@ public class MarioService {
         return mario;
     }
 
+    public Mario getMarioById(Long id) {
+        Optional<Mario> optionalMario = marioRepository.findById(id);
+        return optionalMario.orElse(null);
+    }
+
+    public Set<SentMario> getAllSentMarios() {
+        return StreamSupport.stream(sentMarioRepository.findAll().spliterator(), false)
+                .collect(Collectors.toSet());
+    }
+
     public void initializeMarios() {
 //        Mario mario1 = new Mario("Wielki dzięki, za pomoc!");
 //        Mario mario2 = new Mario("Super wykonałeś to zadanie!");
@@ -175,4 +186,5 @@ public class MarioService {
 //        sendMarios(sentMario2);
 //        sendMarios(sentMario3);
     }
+
 }

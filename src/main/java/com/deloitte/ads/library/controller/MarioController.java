@@ -38,6 +38,15 @@ public class MarioController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Mario> getMarioById(@PathVariable Long id) {
+        Mario mario = marioService.getMarioById(id);
+        if (mario == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(mario);
+    }
+
     @PostMapping("/send")
     public ResponseEntity<SentMario> sendMario(@RequestBody SendMarioRequest sentMarioRequest) {
         try {
@@ -48,6 +57,11 @@ public class MarioController {
         }
     }
 
+    @GetMapping("/sent/all")
+    public ResponseEntity<Set<SentMario>> getAllSentMarios() {
+        Set<SentMario> sentMarios = marioService.getAllSentMarios();
+        return ResponseEntity.ok(sentMarios);
+    }
 
     @GetMapping("/sent/{senderUuid}")
     public ResponseEntity<Set<SentMario>> getSentMarios(@PathVariable String senderUuid) {
