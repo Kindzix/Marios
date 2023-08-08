@@ -3,6 +3,8 @@ package com.deloitte.ads.library.repository;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -60,20 +62,14 @@ public class SentMario {
         return id;
     }
 
-    public String getRecipientFirstNames() {
+    public String getRecipientNames() {
         if (recipients != null && !recipients.isEmpty()) {
-            return recipients.stream()
-                    .map(User::getFirstName)
-                    .collect(Collectors.joining(", "));
-        }
-        return null;
-    }
-
-    public String getRecipientLastNames() {
-        if (recipients != null && !recipients.isEmpty()) {
-            return recipients.stream()
-                    .map(User::getLastName)
-                    .collect(Collectors.joining(", "));
+            List<String> names = new ArrayList<>();
+            for (User recipient : recipients) {
+                String fullName = recipient.getFirstName() + " " + recipient.getLastName();
+                names.add(fullName);
+            }
+            return String.join(", ", names);
         }
         return null;
     }
