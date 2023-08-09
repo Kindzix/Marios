@@ -3,6 +3,7 @@ package com.deloitte.ads.library.repository;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -45,8 +46,11 @@ public class SentMario {
             inverseJoinColumns = @JoinColumn(name = "recipient_id")
     )
     private Set<User> recipients;
+    @Column(name = "sent_datetime")
+    private LocalDateTime sentDateTime;
 
     public SentMario() {
+        this.sentDateTime = LocalDateTime.now();
     }
 
     public SentMario(Mario mario, String comment, User sender, Set<User> recipients, String theme) {
@@ -56,6 +60,7 @@ public class SentMario {
         this.sender = sender;
         this.recipients = recipients;
         this.uuid = UUID.randomUUID();
+        this.sentDateTime = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -76,6 +81,14 @@ public class SentMario {
 
     public UUID getUuid() {
         return uuid;
+    }
+
+    public LocalDateTime getSentDateTime() {
+        return sentDateTime;
+    }
+
+    public void setSentDateTime(LocalDateTime sentDateTime) {
+        this.sentDateTime = sentDateTime;
     }
 
     public void setUuid(UUID uuid) {
