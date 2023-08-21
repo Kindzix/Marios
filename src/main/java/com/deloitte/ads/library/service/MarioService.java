@@ -158,37 +158,37 @@ public class MarioService {
     }
 
     public void initializeMarios() {
-        Mario mario1 = new Mario("Wielki dzięki, za pomoc!");
-        Mario mario2 = new Mario("Super wykonałeś to zadanie!");
-        Mario mario3 = new Mario("Doskonale się spisałeś!");
-        Mario mario4 = new Mario("Gratuluję, świetnie wykonanej pracy!");
-        Mario mario5 = new Mario("Ułatwiło mi to dzień/pracę!");
-
-        addMario(mario1);
-        addMario(mario2);
-        addMario(mario3);
-        addMario(mario4);
-        addMario(mario5);
-
-        User user1 = new User("Olga", "Przybysz", "olga.przybysz@example.com", USER);
-        User user2 = new User("Jagoda", "Rogala", "jagoda.rogala@example.com", USER);
-        User user3 = new User("Norbert", "Michalak", "norbert.michalak@example.com", USER);
-        User user4 = new User("Jakub", "Grzesiak", "jakub.grzesiak@example.com", USER);
-        User user5 = new User("Kacper", "Jablonski", "kacper.jablonski@example.com", USER);
-
-        addUser(user1);
-        addUser(user2);
-        addUser(user3);
-        addUser(user4);
-        addUser(user5);
-
+//        Mario mario1 = new Mario("Wielki dzięki, za pomoc!");
+//        Mario mario2 = new Mario("Super wykonałeś to zadanie!");
+//        Mario mario3 = new Mario("Doskonale się spisałeś!");
+//        Mario mario4 = new Mario("Gratuluję, świetnie wykonanej pracy!");
+//        Mario mario5 = new Mario("Ułatwiło mi to dzień/pracę!");
+//
+//        addMario(mario1);
+//        addMario(mario2);
+//        addMario(mario3);
+//        addMario(mario4);
+//        addMario(mario5);
+//
+//        User user1 = new User("Olga", "Przybysz", "olga.przybysz@example.com", USER);
+//        User user2 = new User("Jagoda", "Rogala", "jagoda.rogala@example.com", USER);
+//        User user3 = new User("Norbert", "Michalak", "norbert.michalak@example.com", USER);
+//        User user4 = new User("Jakub", "Grzesiak", "jakub.grzesiak@example.com", USER);
+//        User user5 = new User("Kacper", "Jablonski", "kacper.jablonski@example.com", USER);
+//
+//        addUser(user1);
+//        addUser(user2);
+//        addUser(user3);
+//        addUser(user4);
+//        addUser(user5);
+//
         SentMario sentMario1 = new SentMario(mario1 , "Pomocne", user3, Sets.newHashSet(user1), "abc");
-        SentMario sentMario2 = new SentMario(mario2, "Bardzo pomogło!", user1, Sets.newHashSet(user2, user3), "Super ekstra wowo");
-        SentMario sentMario3 = new SentMario(mario3, "Super", user5, Sets.newHashSet(user1, user3),"wow");
-
-        sendMarios(sentMario1);
-        sendMarios(sentMario2);
-        sendMarios(sentMario3);
+//        SentMario sentMario2 = new SentMario(mario2, "Bardzo pomogło!", user1, Sets.newHashSet(user2, user3), "Super ekstra wowo");
+//        SentMario sentMario3 = new SentMario(mario3, "Super", user5, Sets.newHashSet(user1, user3),"wow");
+//
+//        sendMarios(sentMario1);
+//        sendMarios(sentMario2);
+//        sendMarios(sentMario3);
     }
 
 }
